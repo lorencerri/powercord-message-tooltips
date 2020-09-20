@@ -1,8 +1,5 @@
-/* Essential Packages */
 const { React } = require('powercord/webpack');
 
-/* Plugin Specific Packages */
-// There are many more componenets available in "powercord/components/settings".
 const { SwitchItem } = require('powercord/components/settings');
 
 module.exports = class Settings extends React.Component {
@@ -13,22 +10,18 @@ module.exports = class Settings extends React.Component {
         this.toggleSetting = props.toggleSetting;
     }
 
-    /**
-     * Renderer, this is what's being executed on line 22 of index.js
-     * The example here displays a toggle between displaying a cat or a dog.
-     * */
+    // TODO: Hover Delay
 
     render() {
         return (
             <div>
                 <SwitchItem
-                    value={this.getSetting('displayCat', true)}
+                    value={this.getSetting('colorCodes', true)}
                     onChange={() => {
-                        this.toggleSetting('displayCat');
+                        this.toggleSetting('colorCodes');
                     }}
-                    note='If disabled, the image will change to a dog instead.'
                 >
-                    Display Cat
+                    Display Color Code Previews
                 </SwitchItem>
             </div>
         );
