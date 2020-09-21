@@ -1,26 +1,38 @@
 const { Plugin } = require('powercord/entities');
 const { inject, uninject } = require('powercord/injector');
-const { getModule } = require('powercord/webpack');
+const { React, getModule } = require('powercord/webpack');
+const { shorthand } = require('./manifest.json');
 
-const { ContextMenu } = require('powercord/components');
-const { getOwnerInstance } = require('powercord/util');
-const { name, shorthand } = require('./manifest.json');
+const MessageLine = require('./Components/MessageLine');
 
-const Settings = require('./Settings.jsx');
+const MessageContent = getModule(
+    m => m.type && m.type.displayName == 'MessageContent',
+    false
+);
 
-module.exports = class MyPlugin extends Plugin {
+module.exports = class MessageTooltips extends Plugin {
     async startPlugin() {
-        powercord.api.settings.registerSettings(shorthand, {
-            category: this.entityID,
-            label: name,
-            render: Settings
-        });
+        inject(shorthand, MessageContent, 'type', this.addMessageTooltips);
+    }
 
-        // TODO: Process Messages
-        // TODO: Regex Detection
+    addMessageTooltips(e, res) {
+        for (var i = 0; i < res.props.children[1].length; i++) {
+            if (
+                typeof res.props.children[1][i] !== 'string' ||
+                Array.isArray(res.props.children[1][i]) ||
+                !res.props.children[1][i]?.trim()
+            )
+                continue;
+
+            res.props.children[1][i] = React.createElement(MessageLine, {
+                text: res.props.children[1][i]
+            });
+        }
+
+        return res;
     }
 
     pluginWillUnload() {
-        powercord.api.settings.unregisterSettings(shorthand);
+        uninject(shorthand);
     }
 };
