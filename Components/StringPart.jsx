@@ -5,9 +5,7 @@ const Tooltip = getModuleByDisplayName('Tooltip', false);
 class StringPart extends React.Component {
     constructor(props) {
         super(props);
-        this.parts = props.text.split(
-            /((?:#|0x)(?:[a-f0-9]{3}|[a-f0-9]{6})\b|(?:rgb|hsl)a?\([^\)]*\))/gi
-        );
+        this.parts = this.props.parts;
     }
 
     render() {
@@ -17,32 +15,37 @@ class StringPart extends React.Component {
             this.parts[i] = (
                 <Tooltip
                     postion='top'
-                    text={
-                        <>
-                            <span
-                                style={{
-                                    display: 'inline-block',
-                                    backgroundColor: text,
-                                    width: 15,
-                                    height: 15,
-                                    marginRight: 0,
-                                    borderRadius: 3
-                                }}
-                            />
-                        </>
-                    }>
-                    {({ onMouseLeave, onMouseEnter }) => (
-                        <span
-                            onMouseEnter={onMouseEnter}
-                            onMouseLeave={onMouseLeave}>
-                            {text}
-                        </span>
-                    )}
+                    text={this.selectTooltip(this.props.name, this.parts[i])}>
+                    {props => <span {...props}>{text}</span>}
                 </Tooltip>
             );
         }
 
         return this.parts;
+    }
+
+    selectTooltip(name, part) {
+        /**
+         * Add tooltip content here.
+         * Return either a string or a React element.
+         */
+        switch (name) {
+            case 'Color Codes':
+                return (
+                    <span
+                        style={{
+                            display: 'inline-block',
+                            backgroundColor: part,
+                            width: 15,
+                            height: 15,
+                            marginRight: 0,
+                            borderRadius: 3
+                        }}
+                    />
+                );
+            default:
+                return part;
+        }
     }
 }
 
