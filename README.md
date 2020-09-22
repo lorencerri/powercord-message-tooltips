@@ -1,6 +1,6 @@
-# powercord-message-tooltips
-
 **Note:** Currently in development, expect issues and frequent updates at this time.
+
+# powercord-message-tooltips
 
 ## Settings
 
