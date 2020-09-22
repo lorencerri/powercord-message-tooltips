@@ -20,7 +20,7 @@ module.exports = class Settings extends React.Component {
             <div>
                 <Category
                     name='Tooltips'
-                    description='Toggle the various message tooltips'
+                    description='Toggle message tooltips'
                     opened={this.state.categoryOpened}
                     onChange={() =>
                         this.setState({
@@ -34,7 +34,8 @@ module.exports = class Settings extends React.Component {
                                 value={this.getSetting(id, i.default)}
                                 onChange={() => {
                                     this.toggleSetting(id);
-                                }}>
+                                }}
+                                note={i.description}>
                                 {i.name}
                             </SwitchItem>
                         );
