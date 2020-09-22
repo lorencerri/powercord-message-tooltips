@@ -13,6 +13,7 @@ _There are currently no settings to configure._
 |    Title    |                 Preview                 |
 | :---------: | :-------------------------------------: |
 | Color Codes | ![](https://i.plexidev.org/eLBzauL.gif) |
+|   Base64    | ![](https://i.plexidev.org/Hba1dPJ.gif) |
 
 ---
 
