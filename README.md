@@ -2,9 +2,12 @@
 
 **Note:** Currently in development, expect issues at this time.
 
-| Preview                                 | Settings |
-| --------------------------------------- | -------- |
-| ![](https://i.plexidev.org/eLBzauL.gif) | Soon.    |
+_There are currently no settings to configure._
+
+**Tooltips**
+| Name | Preview |
+| ---- | --------------------------------------- |
+| Color Codes | ![](https://i.plexidev.org/eLBzauL.gif) |
 
 ---
 
