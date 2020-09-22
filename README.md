@@ -7,6 +7,7 @@
 _There are currently no settings to configure._
 
 ## Tooltips
+*Have a suggestion? Either create an issue on this GitHub repo or send me a message on Discord! **(TrueXPixels#2113)***
 
 |    Title    |                 Preview                 |
 | :---------: | :-------------------------------------: |
