@@ -2,6 +2,8 @@
 
 # powercord-message-tooltips
 
+A simple plugin that displays useful information as tooltips in messages.
+
 ## Settings
 
 _There are currently no settings to configure._
