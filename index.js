@@ -3,7 +3,7 @@ const { inject, uninject } = require('powercord/injector');
 const { React, getModule } = require('powercord/webpack');
 const { shorthand } = require('./manifest.json');
 
-const MessageLine = require('./Components/MessageLine');
+const StringPart = require('./Components/StringPart');
 
 const MessageContent = getModule(
     m => m.type && m.type.displayName == 'MessageContent',
@@ -12,18 +12,13 @@ const MessageContent = getModule(
 
 module.exports = class MessageTooltips extends Plugin {
     async startPlugin() {
-        inject(
-            shorthand,
-            MessageContent,
-            'type',
-            this.addMessageTooltips.bind(this)
-        );
+        inject(shorthand, MessageContent, 'type', this.process.bind(this));
     }
 
     replace(base) {
         return base.map(i => {
             if (typeof i === 'string' && i.trim())
-                return React.createElement(MessageLine, { text: i });
+                return React.createElement(StringPart, { text: i });
             else if (Array.isArray(i?.props?.children))
                 return {
                     ...i,
@@ -36,7 +31,7 @@ module.exports = class MessageTooltips extends Plugin {
         });
     }
 
-    addMessageTooltips(_, res) {
+    process(_, res) {
         res.props.children[1] = this.replace(res.props.children[1]);
         return res;
     }

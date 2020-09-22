@@ -2,7 +2,7 @@ const { React, getModuleByDisplayName } = require('powercord/webpack');
 
 const Tooltip = getModuleByDisplayName('Tooltip', false);
 
-class MessageLine extends React.Component {
+class StringPart extends React.Component {
     constructor(props) {
         super(props);
         this.parts = props.text.split(
@@ -46,4 +46,4 @@ class MessageLine extends React.Component {
     }
 }
 
-module.exports = MessageLine;
+module.exports = StringPart;
