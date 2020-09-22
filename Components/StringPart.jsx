@@ -9,6 +9,10 @@ class StringPart extends React.Component {
     }
 
     render() {
+        /**
+         * Iterate through every item in {parts}, knowing that the items that need to
+         * be replaced will be on every odd numbered index.
+         */
         for (var i = 1; i < this.parts.length; i += 2) {
             if (typeof this.parts[i] !== 'string') continue;
             const text = this.parts[i];
