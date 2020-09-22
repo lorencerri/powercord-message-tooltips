@@ -1,12 +1,15 @@
 # powercord-message-tooltips
 
-**Note:** Currently in development, expect issues at this time.
+**Note:** Currently in development, expect issues and frequent updates at this time.
+
+## Settings
 
 _There are currently no settings to configure._
 
-**Tooltips**
-| Name | Preview |
-| ---- | --------------------------------------- |
+## Tooltips
+
+|    Title    |                 Preview                 |
+| :---------: | :-------------------------------------: |
 | Color Codes | ![](https://i.plexidev.org/eLBzauL.gif) |
 
 ---
