@@ -10,6 +10,7 @@ const { shorthand } = require('./manifest.json');
 const { tooltips } = require('./tooltips.js');
 
 const StringPart = require('./Components/StringPart');
+const Settings = require('./Components/Settings');
 
 const MessageContent = getModule(
     m => m.type && m.type.displayName == 'MessageContent',
@@ -18,6 +19,11 @@ const MessageContent = getModule(
 
 module.exports = class MessageTooltips extends Plugin {
     async startPlugin() {
+        powercord.api.settings.registerSettings(`${shorthand}-settings`, {
+            category: this.entityID,
+            label: 'Message Tooltips',
+            render: Settings
+        });
         inject(shorthand, MessageContent, 'type', this.process.bind(this));
     }
 
@@ -29,6 +35,10 @@ module.exports = class MessageTooltips extends Plugin {
     process(_, res) {
         // Iterate through every tooltip
         for (var i = 0; i < tooltips.length; i++) {
+            // Continue if the tooltip is not enabled
+            const id = `tooltip-toggled-${this.toSnake(tooltips[i].name)}`;
+            if (!this.settings.get(id, tooltips[i].default)) continue;
+
             /**
              * Replace the following property with a version that
              * may have replaced the nested strings with React elements
@@ -97,6 +107,14 @@ module.exports = class MessageTooltips extends Plugin {
     }
 
     pluginWillUnload() {
+        powercord.api.settings.unregisterSettings(`${shorthand}-settings`);
         uninject(shorthand);
+    }
+
+    /**
+     * Helper Functions
+     */
+    toSnake(str) {
+        return str.split(' ').join('-').toLowerCase();
     }
 };
