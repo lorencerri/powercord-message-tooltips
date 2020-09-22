@@ -45,7 +45,7 @@ class StringPart extends React.Component {
                 );
             case 'Base64':
                 console.log(part);
-                return Buffer.from(part, 'base64').toString();
+                return Buffer.from(part, 'base64').toString('binary');
             default:
                 return part;
         }
