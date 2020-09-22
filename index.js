@@ -12,24 +12,32 @@ const MessageContent = getModule(
 
 module.exports = class MessageTooltips extends Plugin {
     async startPlugin() {
-        inject(shorthand, MessageContent, 'type', this.addMessageTooltips);
+        inject(
+            shorthand,
+            MessageContent,
+            'type',
+            this.addMessageTooltips.bind(this)
+        );
+    }
+
+    replace(base) {
+        return base.map(i => {
+            if (typeof i === 'string' && i.trim())
+                return React.createElement(MessageLine, { text: i });
+            else if (Array.isArray(i?.props?.children))
+                return {
+                    ...i,
+                    props: {
+                        ...i.props,
+                        children: this.replace(i.props.children)
+                    }
+                };
+            else return i;
+        });
     }
 
     addMessageTooltips(_, res) {
-        const cb = base => {
-            return base.map(i => {
-                if (typeof i === 'string' && i.trim())
-                    return React.createElement(MessageLine, { text: i });
-                else if (Array.isArray(i?.props?.children))
-                    return {
-                        ...i,
-                        props: { ...i.props, children: cb(i.props.children) }
-                    };
-                else return i;
-            });
-        };
-
-        res.props.children[1] = cb(res.props.children[1]);
+        res.props.children[1] = this.replace(res.props.children[1]);
         return res;
     }
 
