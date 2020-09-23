@@ -24,15 +24,20 @@ module.exports = class MessageTooltips extends Plugin {
             label: 'Message Tooltips',
             render: Settings
         });
-        inject(shorthand, MessageContent, 'type', this.process.bind(this));
+
+        const parser = await getModule(['parse', 'parseTopic']);
+        const process = this.process.bind(this);
+
+        inject(`${shorthand}-messages`, MessageContent, 'type', process);
+        inject(`${shorthand}-embeds`, parser, 'parseAllowLinks', process);
     }
 
     /**
      * Processes a message component
-     * @param {*} _
+     * @param {*} args - Arguments, rarely used
      * @param {*} res - The message componenet being passed through the function
      */
-    process(_, res) {
+    process(args, res) {
         // Iterate through every tooltip
         for (var i = 0; i < tooltips.length; i++) {
             // Continue if the tooltip is not enabled
@@ -43,10 +48,12 @@ module.exports = class MessageTooltips extends Plugin {
              * Replace the following property with a version that
              * may have replaced the nested strings with React elements
              */
-            res.props.children[1] = this.replace(
-                res.props.children[1],
-                tooltips[i]
-            );
+            if (res?.props?.children[1])
+                res.props.children[1] = this.replace(
+                    res.props.children[1],
+                    tooltips[i]
+                );
+            else if (Array.isArray(res)) res = this.replace(res, tooltips[i]);
         }
         return res;
     }
@@ -65,26 +72,7 @@ module.exports = class MessageTooltips extends Plugin {
                  *  to see if it needs to be replaced with a tooltip element
                  */
 
-                const parts = i.split(item.regex);
-
-                /**
-                 * If the regex does not match the string, {parts} will contain an array of
-                 * either one or zero length. Therefore, we can just return the string as we
-                 * don't need to do anything to it.
-                 */
-                if (parts.length <= 1) return i;
-
-                /**
-                 * If the regex matched the string, {parts} will now contain an array of elements
-                 * that need to be replaced with tooltips at every odd number index. Return the
-                 * replacement tooltip element instead of the string.
-                 */
-
-                return React.createElement(StringPart, {
-                    parts,
-                    regex: item.regex,
-                    name: item.name
-                });
+                return this.getElement(i, item);
             } else if (Array.isArray(i?.props?.children))
                 // Otherwise, if {i} has valid .props.children, reiterate through that instead
 
@@ -101,14 +89,46 @@ module.exports = class MessageTooltips extends Plugin {
                  * such as a block quote or image, which can simply be returned.
                  */
 
+                // Handle Inline Code
+                if (
+                    i.type === 'code' &&
+                    typeof i?.props?.children === 'string' &&
+                    i?.props?.children?.trim()
+                )
+                    i.props.children = this.getElement(i.props.children, item);
+
                 return i;
             }
         });
     }
 
+    getElement(i, item) {
+        const parts = i.split(item.regex);
+
+        /**
+         * If the regex does not match the string, {parts} will contain an array of
+         * either one or zero length. Therefore, we can just return the string as we
+         * don't need to do anything to it.
+         */
+        if (parts.length <= 1) return i;
+
+        /**
+         * If the regex matched the string, {parts} will now contain an array of elements
+         * that need to be replaced with tooltips at every odd number index. Return the
+         * replacement tooltip element instead of the string.
+         */
+
+        return React.createElement(StringPart, {
+            parts,
+            regex: item.regex,
+            name: item.name
+        });
+    }
+
     pluginWillUnload() {
         powercord.api.settings.unregisterSettings(`${shorthand}-settings`);
-        uninject(shorthand);
+        uninject(`${shorthand}-messages`);
+        uninject(`${shorthand}-embeds`);
     }
 
     /**
