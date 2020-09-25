@@ -30,12 +30,14 @@ module.exports = class MessageTooltips extends Plugin {
 
         inject(`${shorthand}-messages`, MessageContent, 'type', process);
         inject(`${shorthand}-embeds`, parser, 'parseAllowLinks', process);
+        inject(`${shorthand}-topics`, parser, 'parseTopic', process);
     }
 
     /**
      * Processes a message component
      * @param {*} args - Arguments, rarely used
      * @param {*} res - The message componenet being passed through the function
+     * @param {*} ops - Additional options
      */
     process(args, res) {
         // Iterate through every tooltip
@@ -62,6 +64,7 @@ module.exports = class MessageTooltips extends Plugin {
      * Recursively replaces the string elements in the nested arrays with custom elements
      * @param {*} base - The .children property of the props
      * @param {*} item - The current regex item being parsed against a string
+     * @param {*} ops - Additional options
      */
     replace(base, item) {
         // Return a remapped version of the base
@@ -129,6 +132,7 @@ module.exports = class MessageTooltips extends Plugin {
         powercord.api.settings.unregisterSettings(`${shorthand}-settings`);
         uninject(`${shorthand}-messages`);
         uninject(`${shorthand}-embeds`);
+        uninject(`${shorthand}-topics`);
     }
 
     /**

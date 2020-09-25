@@ -18,7 +18,6 @@ class StringPart extends React.Component {
             const text = this.parts[i];
             this.parts[i] = (
                 <Tooltip
-                    postion='top'
                     text={this.selectTooltip(this.props.name, this.parts[i])}>
                     {props => <span {...props}>{text}</span>}
                 </Tooltip>
