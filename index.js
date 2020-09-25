@@ -30,7 +30,9 @@ module.exports = class MessageTooltips extends Plugin {
 
         inject(`${shorthand}-messages`, MessageContent, 'type', process);
         inject(`${shorthand}-embeds`, parser, 'parseAllowLinks', process);
-        inject(`${shorthand}-topics`, parser, 'parseTopic', process);
+        inject(`${shorthand}-topics`, parser, 'parseTopic', (a, b) =>
+            process(a, b, { position: 'bottom' })
+        );
     }
 
     /**
@@ -39,7 +41,7 @@ module.exports = class MessageTooltips extends Plugin {
      * @param {*} res - The message componenet being passed through the function
      * @param {*} ops - Additional options
      */
-    process(args, res) {
+    process(args, res, ops) {
         // Iterate through every tooltip
         for (var i = 0; i < tooltips.length; i++) {
             // Continue if the tooltip is not enabled
@@ -53,9 +55,11 @@ module.exports = class MessageTooltips extends Plugin {
             if (res?.props?.children[1])
                 res.props.children[1] = this.replace(
                     res.props.children[1],
-                    tooltips[i]
+                    tooltips[i],
+                    ops
                 );
-            else if (Array.isArray(res)) res = this.replace(res, tooltips[i]);
+            else if (Array.isArray(res))
+                res = this.replace(res, tooltips[i], ops);
         }
         return res;
     }
@@ -66,7 +70,7 @@ module.exports = class MessageTooltips extends Plugin {
      * @param {*} item - The current regex item being parsed against a string
      * @param {*} ops - Additional options
      */
-    replace(base, item) {
+    replace(base, item, ops) {
         // Return a remapped version of the base
         return base.map(i => {
             if (typeof i === 'string' && i.trim()) {
@@ -75,7 +79,7 @@ module.exports = class MessageTooltips extends Plugin {
                  *  to see if it needs to be replaced with a tooltip element
                  */
 
-                return this.getElement(i, item);
+                return this.getElement(i, item, ops);
             } else if (Array.isArray(i?.props?.children))
                 // Otherwise, if {i} has valid .props.children, reiterate through that instead
 
@@ -105,7 +109,7 @@ module.exports = class MessageTooltips extends Plugin {
         });
     }
 
-    getElement(i, item) {
+    getElement(i, item, ops) {
         const parts = i.split(item.regex);
 
         /**
@@ -123,6 +127,7 @@ module.exports = class MessageTooltips extends Plugin {
 
         return React.createElement(StringPart, {
             parts,
+            ops,
             regex: item.regex,
             name: item.name
         });

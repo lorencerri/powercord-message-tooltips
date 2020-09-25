@@ -6,6 +6,7 @@ class StringPart extends React.Component {
     constructor(props) {
         super(props);
         this.parts = this.props.parts;
+        this.position = this.props?.ops?.position || 'top';
     }
 
     render() {
@@ -18,6 +19,7 @@ class StringPart extends React.Component {
             const text = this.parts[i];
             this.parts[i] = (
                 <Tooltip
+                    position={this.position}
                     text={this.selectTooltip(this.props.name, this.parts[i])}>
                     {props => <span {...props}>{text}</span>}
                 </Tooltip>
