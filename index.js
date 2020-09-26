@@ -6,7 +6,6 @@
 const { Plugin } = require('powercord/entities');
 const { inject, uninject } = require('powercord/injector');
 const { React, getModule } = require('powercord/webpack');
-const { shorthand } = require('./manifest.json');
 const { tooltips } = require('./tooltips.js');
 
 const StringPart = require('./Components/StringPart');
@@ -19,7 +18,7 @@ const MessageContent = getModule(
 
 module.exports = class MessageTooltips extends Plugin {
     async startPlugin() {
-        powercord.api.settings.registerSettings(`${shorthand}-settings`, {
+        powercord.api.settings.registerSettings(this.entityID, {
             category: this.entityID,
             label: 'Message Tooltips',
             render: Settings
@@ -28,9 +27,9 @@ module.exports = class MessageTooltips extends Plugin {
         const parser = await getModule(['parse', 'parseTopic']);
         const process = this.process.bind(this);
 
-        inject(`${shorthand}-messages`, MessageContent, 'type', process);
-        inject(`${shorthand}-embeds`, parser, 'parseAllowLinks', process);
-        inject(`${shorthand}-topics`, parser, 'parseTopic', (a, b) =>
+        inject(`message-tooltips`, MessageContent, 'type', process);
+        inject(`embed-tooltips`, parser, 'parseAllowLinks', process);
+        inject(`topic-tooltips`, parser, 'parseTopic', (a, b) =>
             process(a, b, { position: 'bottom' })
         );
     }
@@ -134,10 +133,10 @@ module.exports = class MessageTooltips extends Plugin {
     }
 
     pluginWillUnload() {
-        powercord.api.settings.unregisterSettings(`${shorthand}-settings`);
-        uninject(`${shorthand}-messages`);
-        uninject(`${shorthand}-embeds`);
-        uninject(`${shorthand}-topics`);
+        powercord.api.settings.unregisterSettings(this.entityID);
+        uninject('message-tooltips');
+        uninject('embed-tooltips');
+        uninject('topic-tooltips');
     }
 
     /**

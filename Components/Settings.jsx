@@ -7,8 +7,6 @@ module.exports = class Settings extends React.Component {
     constructor(props) {
         super(props);
         this.state = { categoryOpened: true };
-        this.getSetting = props.getSetting;
-        this.toggleSetting = props.toggleSetting;
     }
 
     toSnake(str) {
@@ -31,9 +29,9 @@ module.exports = class Settings extends React.Component {
                         const id = `tooltip-toggled-${this.toSnake(i.name)}`;
                         return (
                             <SwitchItem
-                                value={this.getSetting(id, i.default)}
+                                value={this.props.getSetting(id, i.default)}
                                 onChange={() => {
-                                    this.toggleSetting(id);
+                                    this.props.toggleSetting(id, i.default);
                                 }}
                                 note={i.description}>
                                 {i.name}

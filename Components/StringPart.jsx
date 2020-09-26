@@ -2,31 +2,27 @@ const { React, getModuleByDisplayName } = require('powercord/webpack');
 
 const Tooltip = getModuleByDisplayName('Tooltip', false);
 
-class StringPart extends React.Component {
-    constructor(props) {
-        super(props);
-        this.parts = this.props.parts;
-        this.position = this.props?.ops?.position || 'top';
-    }
-
+class StringPart extends React.PureComponent {
     render() {
+        const { parts, ops } = this.props;
+
         /**
          * Iterate through every item in {parts}, knowing that the items that need to
          * be replaced will be on every odd numbered index.
          */
-        for (var i = 1; i < this.parts.length; i += 2) {
-            if (typeof this.parts[i] !== 'string') continue;
-            const text = this.parts[i];
-            this.parts[i] = (
+        for (var i = 1; i < parts.length; i += 2) {
+            if (typeof parts[i] !== 'string') continue;
+            const text = parts[i];
+            parts[i] = (
                 <Tooltip
-                    position={this.position}
-                    text={this.selectTooltip(this.props.name, this.parts[i])}>
+                    position={ops?.position || 'top'}
+                    text={this.selectTooltip(this.props.name, parts[i])}>
                     {props => <span {...props}>{text}</span>}
                 </Tooltip>
             );
         }
 
-        return this.parts;
+        return parts;
     }
 
     selectTooltip(name, part) {

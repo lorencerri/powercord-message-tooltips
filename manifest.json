@@ -1,6 +1,5 @@
 {
     "name": "Message Tooltips",
-    "shorthand": "message-tooltips",
     "version": "1.0.0",
     "description": "A simple plugin that displays useful information as tooltips in messages.",
     "author": "TrueXPixels",
