@@ -21,6 +21,15 @@ exports.tooltips = [
             /(^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$)/,
             'gm'
         ),
-        default: true
+        default: true,
+        options: [
+            {
+                name: 'Require Majority Text',
+                note:
+                    'Require more than 75% of the text to be a valid US keyboard character. Reduces false positives.',
+                id: 'base64-majority-text',
+                default: true
+            }
+        ]
     }
 ];

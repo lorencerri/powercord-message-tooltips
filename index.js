@@ -11,11 +11,6 @@ const { tooltips } = require('./tooltips.js');
 const StringPart = require('./Components/StringPart');
 const Settings = require('./Components/Settings');
 
-const MessageContent = getModule(
-    m => m.type && m.type.displayName == 'MessageContent',
-    false
-);
-
 module.exports = class MessageTooltips extends Plugin {
     async startPlugin() {
         powercord.api.settings.registerSettings(this.entityID, {
@@ -27,7 +22,7 @@ module.exports = class MessageTooltips extends Plugin {
         const parser = await getModule(['parse', 'parseTopic']);
         const process = this.process.bind(this);
 
-        inject(`message-tooltips`, MessageContent, 'type', process);
+        inject(`message-tooltips`, parser, 'parse', process);
         inject(`embed-tooltips`, parser, 'parseAllowLinks', process);
         inject(`topic-tooltips`, parser, 'parseTopic', (a, b) =>
             process(a, b, { position: 'bottom' })
@@ -40,7 +35,7 @@ module.exports = class MessageTooltips extends Plugin {
      * @param {*} res - The message componenet being passed through the function
      * @param {*} ops - Additional options
      */
-    process(args, res, ops) {
+    process(args, res, ops = {}) {
         // Iterate through every tooltip
         for (var i = 0; i < tooltips.length; i++) {
             // Continue if the tooltip is not enabled
@@ -86,7 +81,7 @@ module.exports = class MessageTooltips extends Plugin {
                     ...i,
                     props: {
                         ...i.props,
-                        children: this.replace(i.props.children, item)
+                        children: this.replace(i.props.children, item, ops)
                     }
                 };
             else {
@@ -101,7 +96,11 @@ module.exports = class MessageTooltips extends Plugin {
                     typeof i?.props?.children === 'string' &&
                     i?.props?.children?.trim()
                 )
-                    i.props.children = this.getElement(i.props.children, item);
+                    i.props.children = this.getElement(
+                        i.props.children,
+                        item,
+                        ops
+                    );
 
                 return i;
             }
@@ -117,6 +116,13 @@ module.exports = class MessageTooltips extends Plugin {
          * don't need to do anything to it.
          */
         if (parts.length <= 1) return i;
+
+        // Parse & Pass Options
+        for (var x = 0; x < item.options?.length; x++)
+            ops[item.options[x].id] = this.settings.get(
+                item.options[x].id,
+                item.options[x].default
+            );
 
         /**
          * If the regex matched the string, {parts} will now contain an array of elements
