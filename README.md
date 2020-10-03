@@ -21,6 +21,6 @@ _Have a suggestion? Either create an issue on this GitHub repo or send me a mess
 
 ---
 
-_Check out my other plugins: [truexpixels.github.io/?tag=powercord](https://truexpixels.github.io/?tag=powercord)_
+*Check out my other plugins: [lorencerri.github.io/?tag=powercord](https://lorencerri.github.io/?tag=powercord)*
 
-Twitter: [@truexpixels](https://twitter.com/truexpixels)
+Twitter: [@lorencerri](https://twitter.com/lorencerri)
