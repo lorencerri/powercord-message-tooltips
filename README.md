@@ -19,8 +19,6 @@ _Have a suggestion? Either create an issue on this GitHub repo or send me a mess
 
 <!-- Note to self, gifs use 1000x850 from bottom left of window -->
 
----
-
 ## Hey There 👋
 
 I work on this project in my spare time, if you'd like to support me, you can do so by [buying me a coffee! ❤️](https://www.buymeacoffee.com/lorencerri)
