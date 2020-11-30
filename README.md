@@ -13,7 +13,7 @@ _Have a suggestion? Either create an issue on this GitHub repo or send me a mess
 |        Title         |                 Preview                 |
 | :------------------: | :-------------------------------------: |
 |     Color Codes      | ![](https://i.plexidev.org/1Gdzuok.gif) |
-| Base64<sup>[1]</sup> | ![](https://i.plexidev.org/A8xHamk.gif) |
+| Base64<sup>[1]</sup> <br> **[Experimental]** | ![](https://i.plexidev.org/A8xHamk.gif) |
 
 **1:** There are issues if the Base64 string is part of a larger message, although it works perfectly fine when it's the entire messsage.
 
@@ -21,7 +21,7 @@ _Have a suggestion? Either create an issue on this GitHub repo or send me a mess
 
 ## Hey There 👋
 
-I work on this project in my spare time, if you'd like to support me, you can do so by [buying me a coffee! ❤️](https://www.buymeacoffee.com/lorencerri)
+I work on these projects in my spare time, if you'd like to support me, you can do so by [buying me a coffee! ❤️](https://www.buymeacoffee.com/lorencerri)
 
 ***Check out my other plugins:** [lorencerri.github.io/?tag=powercord](https://lorencerri.github.io/?tag=powercord)*
 
