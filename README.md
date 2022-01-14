@@ -12,8 +12,8 @@ _Have a suggestion? Either create an issue on this GitHub repo or send me a mess
 
 |        Title         |                 Preview                 |
 | :------------------: | :-------------------------------------: |
-|     Color Codes      | ![](https://i.plexidev.org/1Gdzuok.gif) |
-| Base64<sup>[1]</sup> <br> **[Experimental]** | ![](https://i.plexidev.org/A8xHamk.gif) |
+|     Color Codes      | ![](https://i.imgur.com/BWgytsA.gif) |
+| Base64<sup>[1]</sup> <br> **[Experimental]** | ![](https://i.imgur.com/IH8QKeQ.gif) |
 
 **1:** There are issues if the Base64 string is part of a larger message, although it works perfectly fine when it's the entire messsage.
 
